@@ -1,8 +1,225 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    Layout = null;
+    ViewData["Title"] = "Riot Account Sign In";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <style>
+        /* ESTILOS PERSONALIZADOS PARA IMITAR RIOT CLIENT */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f9f9f9; /* Fondo gris claro típico de la web de cuentas */
+            color: #111;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        .riot-login-container {
+            width: 100%;
+            max-width: 480px;
+            padding: 40px;
+            background: white;
+            /* En pantallas grandes, no siempre tiene borde, pero le pondremos uno sutil */
+        }
+
+        /* Logotipo simulado */
+        .riot-logo {
+            width: 140px;
+            height: auto;
+            margin-bottom: 40px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .title-text {
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #111;
+        }
+
+        /* Inputs estilo Riot: gris claro, borde inferior grueso al enfocar */
+        .form-floating > .form-control {
+            background-color: #ededed;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #333;
+            height: 56px;
+        }
+
+        .form-floating > .form-control:focus {
+            background-color: #ffffff;
+            border-color: #111; /* Borde negro al enfocar */
+            box-shadow: none;
+        }
+
+        .form-floating > label {
+            color: #999;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            padding-top: 1.1rem;
+        }
+
+        /* Ajuste cuando el input tiene texto o foco */
+        .form-floating > .form-control:focus ~ label,
+        .form-floating > .form-control:not(:placeholder-shown) ~ label {
+            color: #999;
+            transform: scale(0.85) translateY(-0.7rem) translateX(0.15rem);
+        }
+
+        .form-check-input {
+            width: 1.2em;
+            height: 1.2em;
+            background-color: #ededed;
+            border: none;
+        }
+        .form-check-input:checked {
+            background-color: #d13639; /* Rojo Riot */
+            border-color: #d13639;
+        }
+
+        /* Botón de envío con la flecha */
+        .btn-riot-submit {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            border: 2px solid #ededed;
+            background-color: white;
+            color: #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            transition: all 0.2s;
+        }
+
+        /* Estado activo (rojo) */
+        .btn-riot-submit.active, .btn-riot-submit:hover {
+            background-color: #d13639;
+            border-color: #d13639;
+            color: white;
+            cursor: pointer;
+        }
+
+        .social-btn {
+            width: 100%;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 2px solid #ededed;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background 0.2s;
+        }
+
+        .social-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        .links-bottom a {
+            color: #b2b2b2;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .links-bottom a:hover {
+            color: #111;
+        }
+
+        /* Responsive */
+        @@media (max-width: 576px) {
+            .riot-login-container {
+                padding: 20px;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="riot-login-container">
+
+        <div class="text-center">
+            <svg class="riot-logo" viewBox="0 0 100 100" fill="#d13639">
+                <path d="M50,10 L70,30 L60,40 L80,60 L50,90 L20,60 L40,40 L30,30 Z" style="fill:#d13639;" />
+                <text x="50" y="100" font-size="12" text-anchor="middle" fill="#d13639" font-weight="bold" font-family="Arial">RIOT GAMES</text>
+            </svg>
+        </div>
+
+        <h2 class="title-text">Iniciar sesión</h2>
+
+        <form>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="usernameInput" placeholder="Nombre de usuario">
+                <label for="usernameInput">NOMBRE DE USUARIO</label>
+            </div>
+
+            <div class="form-floating mb-4">
+                <input type="password" class="form-control" id="passwordInput" placeholder="Contraseña">
+                <label for="passwordInput">CONTRASEÑA</label>
+            </div>
+
+            <div class="row gx-2 mb-4">
+                <div class="col-4">
+                    <button type="button" class="social-btn" style="background-color:#1877f2; color:white; border:none;">FB</button>
+                </div>
+                <div class="col-4">
+                    <button type="button" class="social-btn" style="background-color:white; color:#333;">G</button>
+                </div>
+                <div class="col-4">
+                    <button type="button" class="social-btn" style="background-color:black; color:white; border:none;"></button>
+                </div>
+            </div>
+
+            <div class="form-check mb-5">
+                <input class="form-check-input" type="checkbox" value="" id="staySignedIn">
+                <label class="form-check-label fw-bold text-secondary" style="font-size: 0.9rem;" for="staySignedIn">
+                    Permanecer conectado
+                </label>
+            </div>
+
+            <div class="text-center mb-5">
+                <button type="button" class="btn-riot-submit active">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="d-flex justify-content-between links-bottom mt-4">
+                <a href="#">¿NO PUEDES INICIAR SESIÓN?</a>
+                <a href="#">CREAR CUENTA</a>
+            </div>
+
+            <div class="text-center mt-5">
+                <small class="text-muted fw-bold" style="font-size: 0.65rem;">V65.0.0</small>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
